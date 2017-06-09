@@ -2,7 +2,7 @@
   "name": "hivecast",
   "version": "1.0.0",
   "description": "RTSP/RTMP/HTTP hybrid server",
-  "author": "MingMing",
+  "author": "MingMing <mingming@outrightdevelopment.com>",
   "license": "MIT",
   "main": "stream_server.js",
   "scripts": {
