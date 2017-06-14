@@ -36,6 +36,11 @@
 
   Sequent = require('sequent');
 
+  var datastore = require('@google-cloud/datastore')({
+    projectId: 'hivecast-syndicate',
+    keyFilename: './hivecast-syndicate.json'
+  });
+
   DEBUG_INCOMING_PACKET_DATA = false;
 
   DEBUG_INCOMING_PACKET_HASH = false;
@@ -221,6 +226,9 @@
         '-o', `public/file/${fileName}`
       ];
       var dumpProc = spawn(dumpCmd, dumpArgs);
+
+      //var ds_key = datastore.key(['Stream', ])
+
       dumpProc.stdout.on('data', function(data) {
       });
       dumpProc.stderr.on('data', function(data) {

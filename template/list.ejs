@@ -7,10 +7,10 @@
 </head>
 <body>
 <div class="container">
-  <div class="row">
+  <div class="row" style="margin: 30px 0;">
     <div class="col-lg-6">
       <h2>List of Streams</h2>
-      <p class="text-muted">These streams are now being broadcasted. Please see it live on rtmp://<%= serverAddress %>/live/{Stream Name}</p>
+      <p class="text-muted">These streams are now being broadcasted. Please see it live on <p>rtmp://<%= serverAddress %>/live/<code>stream_name</code></p></p>
       <% if (streams.length > 0) { -%>
         <ol>
         <% for (var i=0, l=streams.length; i<l; i++) { -%>
@@ -20,6 +20,7 @@
         <% } -%>
         </ol>
       <% } -%>
+      <p style="background: #ce4844; color: #fff; padding: 1em;">This is not working for now. ^^</p>
     </div>
     <div class="col-lg-6">
       <h2>List of Files</h2>
@@ -33,6 +34,11 @@
         <% } -%>
         </ol>
       <% } -%>
+    </div>
+    <div class="clearfix" style="margin: 30px 0;"></div>
+    <div class="col-lg-8 col-lg-offset-2">
+      <p class="text-danger">To broadcast from video file</p>
+      <p class="bg-primary" style="padding: 1em; border-radius: 0.5em;">ffmpeg -re -i <code>input.mp4</code> -c copy -f flv rtmp://<%= serverAddress %>/live/<code>stream_name</code></p>
     </div>
   </div>
 </div>
