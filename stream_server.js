@@ -36,10 +36,10 @@
 
   Sequent = require('sequent');
 
-  var datastore = require('@google-cloud/datastore')({
-    projectId: 'hivecast-syndicate',
-    keyFilename: './hivecast-syndicate.json'
-  });
+  // var datastore = require('@google-cloud/datastore')({
+  //   projectId: 'hivecast-syndicate',
+  //   keyFilename: './hivecast-syndicate.json'
+  // });
 
   DEBUG_INCOMING_PACKET_DATA = false;
 
