@@ -38,6 +38,8 @@
     <div class="clearfix" style="margin: 30px 0;"></div>
     <div class="col-lg-8 col-lg-offset-2">
       <p class="text-danger">To broadcast from video file</p>
+      <p class="text-muted">You will need to install ffmpeg on your machine first to broadcast your local video file.<br/>Note: Broadcasting your local file is just for test. It should be broadcasted from webcam or mobile device. This one is just dealing with the currently broadcasting stream.</p>
+      <pre>brew install ffmpeg</pre>
       <p class="bg-primary" style="padding: 1em; border-radius: 0.5em; letter-spacing: 1px;">ffmpeg -re -i <code>input.mp4</code> -c copy -f flv rtmp://<%= serverAddress %>/live/<code>stream_name</code></p>
       <p class="text-danger">How to check ?</p>
       <p class="bg-primary" style="padding: 1em; border-radius: 0.5em; letter-spacing: 1px;">You can try <code>rtmp://<%= serverAddress %>/live/stream_name</code> on <code>VLC Media Player</code>, <code>JW Player</code>, <code>Flow Player</code>, ... (which are Flash Players)</p>
