@@ -1,4 +1,7 @@
 .DS_Store
+
+./config.js
+
 *~
 *.sw[po]
 lib-cov
@@ -18,5 +21,6 @@ npm-debug.log
 node_modules
 
 file
+
 
 #public
