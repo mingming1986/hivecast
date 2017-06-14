@@ -2,6 +2,8 @@
 (function() {
   var Bits, CustomReceiver, DEBUG_INCOMING_PACKET_DATA, DEBUG_INCOMING_PACKET_HASH, DEFAULT_SERVER_NAME, Sequent, StreamServer, aac, avstreams, config, crypto, fs, h264, http, logger, mp4, net, packageJson, ref, rtmp, rtsp, serverName;
 
+  var uuid = require('node-uuid');
+
   net = require('net');
 
   fs = require('fs');
@@ -208,13 +210,15 @@
       var serverAddr = config.serverAddress;
       var dumpId = (streamId.split('/'))[1];
       var spawn = require('child_process').spawn;
+
+      var fileName = dumpId + '_' + uuid.v1() + '.flv';
       var dumpCmd = 'rtmpdump';
       //ffmpeg -re -i input.mp4 -c:v copy -c:a copy -f flv rtmp://localhost/live/STREAM_NAME
       //rtmpdump -v -r rtmp://localhost/live/STREAM_NAME -o dump.flv
       var dumpArgs = [
         '-v', 
         '-r', `rtmp://${serverAddr}/` + streamId,
-        '-o', 'file/' + dumpId + '.flv'
+        '-o', `public/file/${fileName}`
       ];
       var dumpProc = spawn(dumpCmd, dumpArgs);
       dumpProc.stdout.on('data', function(data) {
@@ -222,7 +226,7 @@
       dumpProc.stderr.on('data', function(data) {
       });
       dumpProc.on('close', function() {
-        console.log(`Stream dump is finished. File could be found at file/${dumpId}.flv`);
+        console.log(`Stream dump is finished. File could be found at file/${fileName}`);
 
         /*setTimeout(function() {
           var streamCmd = 'ffmpeg';

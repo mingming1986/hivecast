@@ -16,6 +16,8 @@
 
   logger = require('./logger');
 
+  var config = require('./config');
+
   TEMPLATE_DIR = __dirname + "/template";
 
   STATIC_DIR = __dirname + "/public";
@@ -53,12 +55,27 @@
       var opts;
       if (filepath === '/crossdomain.xml') {
         return this.respondCrossDomainXML(req, callback);
-      } else if (filepath === '/ping') {
-        return this.respondText('pong', req, callback);
+      // } else if (filepath === '/ping') {
+      //   return this.respondText('pong', req, callback);
       } else if (filepath === '/') {
         opts = {
-          streams: ['foo', 'bar', 'baz']
+          streams: ['foo', 'bar', 'baz'],
+          serverAddress: config.serverAddress,
+          files: []
         };
+        var p = STATIC_DIR + "/file/";
+        fs.readdir(p, function (err, files) {
+          if (err) {
+              throw err;
+          }
+          files.map(function (file) {
+              return path.join(p, file);
+          }).filter(function (file) {
+              return fs.statSync(file).isFile();
+          }).forEach(function (file) {
+              opts.files.push({ name: path.basename(file, path.extname(file)), filename: path.basename(file) });
+          });
+        });
         return fs.readFile(TEMPLATE_DIR + "/list.ejs", {
           encoding: 'utf8'
         }, (function(_this) {
@@ -73,8 +90,8 @@
             }
           };
         })(this));
-      } else if (filepath === '/302') {
-        return this.redirect('/new-url', req, callback);
+      // } else if (filepath === '/302') {
+      //   return this.redirect('/new-url', req, callback);
       } else if (filepath === '/404') {
         return this.notFound(req, callback);
       } else if (filepath === '/400') {
@@ -389,6 +406,9 @@
                     doCompress = false;
                   } else if (/\.mp4$/.test(filepath)) {
                     contentType = 'video/mp4';
+                    doCompress = false;
+                  } else if (/\.flv$/.test(filepath)) {
+                    contentType = 'video/flv';
                     doCompress = false;
                   } else if (/\.3gpp?$/.test(filepath)) {
                     contentType = 'video/3gpp';
