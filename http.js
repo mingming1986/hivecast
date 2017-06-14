@@ -55,9 +55,9 @@
         return this.respondCrossDomainXML(req, callback);
       } else if (filepath === '/ping') {
         return this.respondText('pong', req, callback);
-      } else if (filepath === '/list') {
+      } else if (filepath === '/') {
         opts = {
-          files: ['foo', 'bar', 'baz']
+          streams: ['foo', 'bar', 'baz']
         };
         return fs.readFile(TEMPLATE_DIR + "/list.ejs", {
           encoding: 'utf8'

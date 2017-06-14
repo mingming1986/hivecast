@@ -9,17 +9,18 @@
     /* Basic configurations */
     serverPort: 80,
     rtmpServerPort: 1935,
-    serverName: 'node-rtsp-rtmp-server',
+    serverName: 'hiveCast',
+    serverAddress: '35.190.180.46',
     videoFrameRate: 30,
     videoBitrateKbps: 2000,
     audioBitrateKbps: 40,
 
     /* Enable/disable each functions */
-    enableRTSP: true,
+    enableRTSP: false,
     enableRTMP: true,
-    enableRTMPT: true,
+    enableRTMPT: false,
     enableHTTP: true,
-    enableCustomReceiver: true,
+    enableCustomReceiver: false,
 
     /* Custom protocol receiver configurations */
     receiverType: os.platform() === 'win32' ? 'tcp' : 'unix',

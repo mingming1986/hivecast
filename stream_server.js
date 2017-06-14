@@ -52,6 +52,7 @@
           return function(streamId) {
             var stream;
             stream = avstreams.getOrCreate(streamId);
+            _this.dumpToFile(streamId);
             return _this.onReceiveVideoControlBuffer(stream);
           };
         })(this));
@@ -202,6 +203,43 @@
         };
       })(this));
     }
+
+    StreamServer.prototype.dumpToFile = function(streamId) {
+      var serverAddr = config.serverAddress;
+      var dumpId = (streamId.split('/'))[1];
+      var spawn = require('child_process').spawn;
+      var dumpCmd = 'rtmpdump';
+      //ffmpeg -re -i input.mp4 -c:v copy -c:a copy -f flv rtmp://localhost/live/STREAM_NAME
+      //rtmpdump -v -r rtmp://localhost/live/STREAM_NAME -o dump.flv
+      var dumpArgs = [
+        '-v', 
+        '-r', `rtmp://${serverAddr}/` + streamId,
+        '-o', 'file/' + dumpId + '.flv'
+      ];
+      var dumpProc = spawn(dumpCmd, dumpArgs);
+      dumpProc.stdout.on('data', function(data) {
+      });
+      dumpProc.stderr.on('data', function(data) {
+      });
+      dumpProc.on('close', function() {
+        console.log(`Stream dump is finished. File could be found at file/${dumpId}.flv`);
+
+        /*setTimeout(function() {
+          var streamCmd = 'ffmpeg';
+          var streamArgs = [
+            '-re',
+            '-i', 'file/' + dumpId + '.flv',
+            '-c', 'copy',
+            '-f', 'flv',
+            `rtmp://${serverAddr}/live/cloned_` + dumpId
+          ];
+          var streamProc = spawn(streamCmd, streamArgs);
+          streamProc.on('close', function() {
+            console.log(`FLV: file/${dumpId}.flv is streamed successfully.`);
+          });
+        }, 3000);*/
+      });
+    };
 
     StreamServer.prototype.attachRecordedDir = function(dir) {
       if (config.recordedApplicationName != null) {
